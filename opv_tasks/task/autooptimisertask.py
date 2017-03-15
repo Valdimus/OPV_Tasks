@@ -25,19 +25,16 @@ from shutil import copyfile
 from opv_tasks.const import Const
 from opv_tasks.task import Task
 
+
 class AutooptimiserTask(Task):
-    """
-        Optimise CP with cli autooptimiser.
-    """
+    """Optimise CP with cli autooptimiser."""
 
     AUTOOPTIMISER_OPTIONS = ["-a", "-m", "-l", "-s"]
     TMP_PTONAME = "opt.pto"
     TMP_OUTPUT = "out.pto"
 
     def optimise(self):
-        """
-        Optimise CP.
-        """
+        """Optimise CP."""
         with self._opv_directory_manager.Open(self.cp.pto_dir) as (_, pto_dirpath):
             proj_pto = Path(pto_dirpath) / Const.CP_PTO_FILENAME
 
@@ -60,6 +57,7 @@ class AutooptimiserTask(Task):
                 os.unlink(local_tmp_pto)
 
     def run(self, options={}):
+        """Run auto optimiser task."""
         if "id" in options:
             self.cp = self._client_requestor.Cp(options["id"])
             self.optimise()

@@ -22,7 +22,8 @@ import subprocess
 
 def run_cli(cmd, args=[], stdout=sys.stdout, stderr=subprocess.STDOUT):
     """
-    Run a command
+    Run a command.
+
     :param cmd: Command to use
     :param args: Args to pass to the command
     :param stdout:
@@ -31,10 +32,12 @@ def run_cli(cmd, args=[], stdout=sys.stdout, stderr=subprocess.STDOUT):
     """
     my_cmd = cmd if isinstance(cmd, list) else [cmd]
     my_args = args if isinstance(args, list) else [args]
-    ret = subprocess.run(my_cmd + my_args, stdout=stdout,stderr=stderr)
+    ret = subprocess.run(my_cmd + my_args, stdout=stdout, stderr=stderr)
     return ret.returncode
 
+
 def find_task(taskName):
+    """Find the atsk with taskName."""
     try:
         moduleTask = __import__("opv_tasks.task.{}task".format(taskName))
         task = getattr(moduleTask, "{}Task".format(taskName.title()))
@@ -42,4 +45,4 @@ def find_task(taskName):
     except (ImportError, AttributeError) as e:
         import pprint
         pprint.pprint(e)
-        return None # Task not found
+        return None  # Task not found

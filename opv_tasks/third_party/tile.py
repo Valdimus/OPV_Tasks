@@ -45,7 +45,7 @@ except KeyError:
 
 
 def tile(inputFile, output, tileSize, cubeSize, quality, png=False, nona=nona):
-# Process input image information
+    """Process input image information."""
     print('Processing input image information...')
     origWidth, origHeight = Image.open(inputFile).size
     if float(origWidth) / origHeight != 2:
@@ -53,7 +53,7 @@ def tile(inputFile, output, tileSize, cubeSize, quality, png=False, nona=nona):
         print('Input image must be a full, not partial, equirectangular panorama!')
         sys.exit(1)
     if cubeSize != 0:
-        cubeSize =cubeSize
+        cubeSize = cubeSize
     else:
         cubeSize = 8 * int(origWidth / math.pi / 8)
     levels = int(math.ceil(math.log(float(cubeSize) / tileSize, 2))) + 1
@@ -109,8 +109,8 @@ def tile(inputFile, output, tileSize, cubeSize, quality, png=False, nona=nona):
                     lower = min(i * tileSize + tileSize, size)
                     tile = face.crop([left, upper, right, lower])
                     tile.load()
-                    tile.save(os.path.join(output, str(level), faceLetters[f] + str(i) + '_' + str(j) + extension), quality = quality)
-            size = int(size / 2)
+                    tile.save(os.path.join(output, str(level), faceLetters[f] + str(i) + '_' + str(j) + extension), quality=quality)
+            size = int(size/2)
 
 # Generate fallback tiles
     print('Generating fallback tiles...')
@@ -119,7 +119,7 @@ def tile(inputFile, output, tileSize, cubeSize, quality, png=False, nona=nona):
             os.makedirs(os.path.join(output, 'fallback'))
         face = Image.open(os.path.join(output, faces[f]))
         face = face.resize([1024, 1024], Image.ANTIALIAS)
-        face.save(os.path.join(output, 'fallback', faceLetters[f] + extension), quality = quality)
+        face.save(os.path.join(output, 'fallback', faceLetters[f] + extension), quality=quality)
 
 # Clean up temporary files
     os.remove(os.path.join(output, 'cubic.pto'))
@@ -144,11 +144,12 @@ def tile(inputFile, output, tileSize, cubeSize, quality, png=False, nona=nona):
     with open(os.path.join(output, 'config.json'), 'w') as f:
         f.write(text)
 
+
 if __name__ == "__main__":
 
-# Parse input
+    # Parse input
     parser = argparse.ArgumentParser(description='Generate a Pannellum multires tile set from an full equirectangular panorama.',
-                                    formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('inputFile', metavar='INPUT',
                         help='full equirectangular panorama to be processed')
     parser.add_argument('-o', '--output', dest='output', default='./output',

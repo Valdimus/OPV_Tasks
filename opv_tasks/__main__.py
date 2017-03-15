@@ -13,16 +13,17 @@ Options:
     --debug                  Debug mode.
 
 Task are in: run_all, """ + ', '.join(tasks)
+
+import json
 import logging
 from docopt import docopt
-from opv_directorymanagerclient import DirectoryManagerClient, Protocol
-from potion_client import Client
-from pprint import pprint
-import json
-
 from .utils import find_task
+from potion_client import Client
+from opv_directorymanagerclient import DirectoryManagerClient, Protocol
+
 
 def main():
+    """Main function."""
     arguments = docopt(__doc__)
     debug = bool(arguments.get('--debug'))
 
@@ -50,13 +51,16 @@ def main():
 
     print(out)
 
+
 def run(dm_c, db_c, task_name, id_task):
+    """Run task."""
     Task = find_task(task_name)
     if not Task:
         raise Exception('Task %s not found' % task_name)
 
     task = Task(client_requestor=db_c, opv_directorymanager_client=dm_c)
     return task.run(options={"id": id_task})
+
 
 if __name__ == "__main__":
     main()

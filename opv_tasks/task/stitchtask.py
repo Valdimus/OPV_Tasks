@@ -15,21 +15,24 @@
 # Contributors: tristan GOUGE <gouge.tristan@openpathview.fr>
 # Email: team@openpathview.fr
 # Description: Stitch the panorama
+
+import json
 import logging
+
+from path import Path
+from .task import Task
+from opv_tasks.const import Const
 
 logger = logging.getLogger(__name__)
 
-from path import Path
-from opv_tasks.const import Const
-from .task import Task
-import json
 
 class StitchTask(Task):
-    """
-    Stitch the panorama
-    """
+    """Stitch the panorama."""
+
     TMP_PTONAME = 'tmp.pto'
+
     def stitch(self, proj_pto):
+        """Stitch a projection."""
         self._run_cli('hugin_executor', ["-s", proj_pto])
         with self._opv_directory_manager.Open() as (path_uuid, panorama_path):
             panorama_path = Path(panorama_path)
@@ -45,6 +48,7 @@ class StitchTask(Task):
             self.panorama.save()
 
     def run(self, options={}):
+        """Run a StitchTask with options."""
         if "id" in options:
             self.cp = self._client_requestor.Cp(options["id"])
 

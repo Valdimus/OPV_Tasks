@@ -16,7 +16,9 @@
 # Email: team@openpathview.fr
 # Description: Constant file.
 
+
 class Const():
+    """A class for the const why not ?."""
 
     CP_PTO_FILENAME = "project.pto"
     CP_SEARCHALGO_VERSION = "0.0.1"

@@ -24,26 +24,23 @@ from path import Path
 
 from opv_tasks.task import Task
 
+
 class RotateTask(Task):
     """
-        Manage rotation for source set of images.
+    Manage rotation for source set of images.
 
-        As they need to be in portrait mode.
+    As they need to be in portrait mode.
     """
 
     def getPictureSizes(self, picPath):
-        """
-        return (width, height) of the specified picture (picPath)
-        """
+        """Return (width, height) of the specified picture (picPath)."""
         with Image.open(picPath) as pic:
             width, height = pic.size
 
         return (width, height)
 
-    def isPortrait(self, picPath: str):
-        """
-        return true if a picture is in portrait mode
-        """
+    def isPortrait(self, picPath):
+        """Return true if a picture is in portrait mode."""
         x, y = self.getPictureSizes(picPath)
         logging.debug("Width: " + str(x) + "  Height: " + str(y))
         return x < y
@@ -51,22 +48,19 @@ class RotateTask(Task):
     def rotatePic(self, rotation_angle, picPath):
         """
         Rotate picPath with rotation_angle.
+
         Modify picture in place !
         """
         logging.debug("Rotate pic " + picPath + " angle : " + str(rotation_angle))
         self._run_cli('mogrify', ["-rotate", str(rotation_angle), picPath])  # TODO : test
 
     def rotateToPortrait(self, picPath):
-        """
-        Rotate a picture to portrait format if necessary.
-        """
+        """Rotate a picture to portrait format if necessary."""
         if not self.isPortrait(picPath):
             self.rotatePic(90, picPath)
 
     def rotateToPortraitAll(self):
-        """
-        Rotate all picture of lot to portrait
-        """
+        """Rotate all picture of lot to portrait."""
         if self.lot is not None and self.lot.pictures_path is not None:
             with self._opv_directory_manager.Open(self.lot.pictures_path) as (uuid, dir_path):
                 for apnNo in range(0, 6):
@@ -75,6 +69,7 @@ class RotateTask(Task):
                         self.rotateToPortrait(pic_path)
 
     def run(self, options={}):
+        """Run a rotatetask."""
         if "id" in options:
             self.lot = self._client_requestor.Lot(options["id"])
             self.rotateToPortraitAll()

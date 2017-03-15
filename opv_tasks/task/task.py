@@ -19,14 +19,14 @@
 import sys
 import subprocess
 
+
 class Task:
-    """
-    An abstract class, you must redefine the run method
-    """
+    """An abstract class, you must redefine the run method."""
 
     def __init__(self, client_requestor, opv_directorymanager_client):
         """
-        Create a task
+        Create a task.
+
         :param client_requestor: the client requestor to use for the task
         :param opv_directorymanager_client: The client directory manager to use
         """
@@ -35,7 +35,8 @@ class Task:
 
     def run(self, options={}):
         """
-        Run the task
+        Run the task.
+
         :param options: Options to use
         :return:
         :raise
@@ -44,7 +45,8 @@ class Task:
 
     def _run_cli(self, cmd, args=[], stdout=sys.stdout, stderr=subprocess.STDOUT):
         """
-        Run a command
+        Run a command.
+
         :param cmd: Command to use
         :param args: Args to pass to the command
         :param stdout:

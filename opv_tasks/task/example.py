@@ -24,13 +24,12 @@ import json
 
 
 class ExampleTask(Task):
-    """
-    Example task
-    """
+    """Example task."""
 
     def run(self, options={}):
         """
-        Run the task
+        Run the task.
+
         :param options: Options to use
         :return:
         :raise

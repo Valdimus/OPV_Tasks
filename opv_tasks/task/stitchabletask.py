@@ -16,23 +16,22 @@
 # Email: team@openpathview.fr
 # Description: Set in db isStichable if needed
 
-from hsi import Panorama, ifstream
-import sys
 import logging
-from path import Path
 import json
+
+from path import Path
+from .task import Task
+from hsi import Panorama, ifstream
+from opv_tasks.const import Const
 
 logger = logging.getLogger(__name__)
 
-from opv_tasks.const import Const
-from .task import Task
 
 class StitchableTask(Task):
-    """
-    Set in db isStichable if needed
-    """
+    """Set in db isStichable if needed."""
 
     def stichable(self, proj_pto):
+        """Check if a proj_pto is stichable."""
         ifs = ifstream(proj_pto)
 
         p = Panorama()
@@ -40,7 +39,6 @@ class StitchableTask(Task):
 
         cpv = p.getCtrlPoints()
         picLinkNb = [0 for x in range(6)]
-        distSum = 0
         nbPoints = 0
 
         for cp in cpv:
@@ -56,6 +54,7 @@ class StitchableTask(Task):
         self.cp.save()
 
     def run(self, options={}):
+        """Run a stichable task with options."""
         if "id" in options:
             self.cp = self._client_requestor.Cp(options["id"])
             with self._opv_directory_manager.Open(self.cp.pto_dir) as (_, pto_dirpath):

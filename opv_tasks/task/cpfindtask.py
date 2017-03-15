@@ -25,11 +25,12 @@ from opv_tasks.const import Const
 
 from opv_tasks.task import Task
 
+
 class CpfindTask(Task):
     """
-        Manage rotation for source set of images.
+    Manage rotation for source set of images.
 
-        As they need to be in portrait mode.
+    As they need to be in portrait mode.
     """
 
     BASE_TEMPLATE_REL_PATH = "../ressources/base.pto"
@@ -43,9 +44,7 @@ class CpfindTask(Task):
         "--kdtreesteps", "300"]
 
     def searchCP(self):
-        """
-        Run cli CP search.
-        """
+        """Run cli CP search."""
         # Getting base template
         this_dir, _ = os.path.split(__file__)
         base_pto_path = Path(this_dir) / self.BASE_TEMPLATE_REL_PATH
@@ -69,9 +68,7 @@ class CpfindTask(Task):
             os.rename(tmp_output_pto, cp_pto_dest)  # copies PTO to is't directory man
 
     def findCP(self):
-        """
-        Initiate cp object and run search.
-        """
+        """Initiate cp object and run search."""
         logging.info("Running cpfind for lot : " + str(self.lot.id))
         self.cp = self._client_requestor.Cp()
         self.cp.search_algo_version = Const.CP_SEARCHALGO_VERSION
@@ -85,6 +82,7 @@ class CpfindTask(Task):
         self.cp.save()
 
     def run(self, options={}):
+        """Run Cp find task."""
         idCp = None
 
         if "id" in options:
